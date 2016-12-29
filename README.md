@@ -84,6 +84,10 @@ var socket = io.connect('http://localhost:9000', {
 });
 ```
 
+## Allowing not logged requests
+
+TODO
+
 ## Handling token expiration
 
 __Server side__:
