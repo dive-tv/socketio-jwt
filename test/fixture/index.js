@@ -50,9 +50,16 @@ exports.start = function (options, callback) {
   if (options.handshake) {
     sio.use(socketio_jwt.authorize(options));
 
-    sio.sockets.on('echo', function (m) {
-      sio.sockets.emit('echo-response', m);
-    });
+    sio.sockets
+      .on('connection', function (socket) {
+        socket
+          .on('echo', function (m) {
+            socket.emit('echo-response', m);
+          })
+          .on('echo-token', function () {
+            socket.emit('echo-token-response', socket.decoded_token);
+        });
+      });
   } else {
     sio.sockets
       .on('connection', socketio_jwt.authorize(options))
